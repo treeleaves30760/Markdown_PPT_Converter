@@ -10,7 +10,7 @@ Follow these steps to set up a Python virtual environment and install the requir
 
     ```
     git clone https://github.com/treeleaves30760/Hackmd_PPT_Converter
-    cd your-repository
+    cd Hackmd_PPT_Converter
     ```
 
 2. Install the required packages:
