@@ -9,7 +9,7 @@ Follow these steps to set up a Python virtual environment and install the requir
 1. Clone this repository:
 
     ```
-    git clone 
+    git clone https://github.com/treeleaves30760/Hackmd_PPT_Converter
     cd your-repository
     ```
 
