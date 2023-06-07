@@ -19,10 +19,31 @@ Follow these steps to set up a Python virtual environment and install the requir
     pip install -r requirements.txt
     ```
 
-3. Run the GUI script:
+## Usage
 
+### GUI
+
+If you want use GUI, you can run the GUI script:
+
+- Window
     ```
-    python GUI.py
+    Start_GUI.bat
+    ```
+
+- Linux/MacOS
+    ```
+    Staert_GUI.sh
     ```
 
 In the GUI, you can input the hackmd code into textarea, then press the convert button to generate PPT.
+
+### API
+
+You can import the converter.py
+
+```python=
+import converter
+
+converter = MarkdownToPptConverter('', 'example.pptx', mode=1)
+converter.convert('example.md')
+```

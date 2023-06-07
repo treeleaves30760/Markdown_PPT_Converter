@@ -1,16 +1,28 @@
 import markdown
 from pptx import Presentation
 from pptx.util import Inches, Pt
+from html.parser import HTMLParser
+
+class MyHTMLParser(HTMLParser):
+    def handle_data(self, data):
+        self.data = data
 
 class MarkdownToPptConverter:
-    def __init__(self, md_content, ppt_file):
+    def __init__(self, md_content, ppt_file, mode=0):
         self.md_content = md_content
         self.ppt_file = ppt_file
+        self.mode = mode
 
-    def convert(self):
+    def convert(self, md_content_file):
         # Initialize presentation
         presentation = Presentation()
 
+        if self.mode == 1:
+            with open(self.md_content_file, 'r') as f:
+                self.md_content = f.read()
+            
+            self.md_content = markdown.markdown(self.md_content)
+        
         # Split markdown content by '---' (assuming each slide ends with '---')
         slides_md = self.md_content.split('---')
 
@@ -40,5 +52,5 @@ class MarkdownToPptConverter:
         presentation.save(self.ppt_file)
     
 if __name__ == "__main__":
-    converter = MarkdownToPptConverter('example.md', 'example.pptx')
-    converter.convert()
+    converter = MarkdownToPptConverter('', 'example.pptx', mode=1)
+    converter.convert('example.md')
