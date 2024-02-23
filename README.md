@@ -32,7 +32,7 @@ If you want use GUI, you can run the GUI script:
 
 - Linux/MacOS
     ```
-    Staert_GUI.sh
+    Start_GUI.sh
     ```
 
 In the GUI, you can input the hackmd code into textarea, then press the convert button to generate PPT.
