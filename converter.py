@@ -78,7 +78,7 @@ class MarkdownToPptConverter:
 
 # Example usage
 if __name__ == "__main__":
-    md_content = """
+    md_content = """ 
 # Stable Diffusion 簡介
 
 ---
