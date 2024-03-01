@@ -20,7 +20,6 @@ class MarkdownToPptConverter:
         # Initialize presentation
         presentation = Presentation()
         first_slide_created = False
-
         if self.mode == 1:
             with open(self.md_content_file, "r") as f:
                 self.md_content = f.read()
@@ -29,7 +28,6 @@ class MarkdownToPptConverter:
 
         # Split markdown content by '---'
         slides_md = self.md_content.split("---")
-
         for slide_md in slides_md:
             slide_md = slide_md.strip()
 
