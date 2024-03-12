@@ -9,14 +9,14 @@ Follow these steps to set up a Python virtual environment and install the requir
 
 1. Clone this repository:
 
-    ```
+    ```bash
     git clone https://github.com/treeleaves30760/Hackmd_PPT_Converter
     cd Hackmd_PPT_Converter
     ```
 
 2. Install the required packages:
 
-    ```
+    ```bash
     pip install -r requirements.txt
     ```
 
@@ -27,12 +27,14 @@ Follow these steps to set up a Python virtual environment and install the requir
 If you want use GUI, you can run the GUI script:
 
 - Window
-    ```
+
+    ```bash
     Start_GUI.bat
     ```
 
 - Linux/MacOS
-    ```
+
+    ```bash
     Start_GUI.sh
     ```
 
@@ -52,6 +54,65 @@ converter.convert('example.md')
 ## Format
 
 Below is the example of a markdown file
+
+```markdown
+# Introduction to Stable Diffusion
+
+---
+
+## Table of Contents
+
+1. What is Stable Diffusion?
+2. Core Features
+3. Use Cases
+4. Advantages
+5. Limitations
+
+---
+
+## What is Stable Diffusion?
+
+Stable Diffusion is a deep learning model used for generating high-quality images. It can create images based on textual descriptions or edit and enhance existing images.
+
+---
+
+## Core Features
+
+- **Text-to-Image Conversion**: Ability to generate images based on natural language descriptions.
+- **Image-to-Image Transformation**: Can transform input images into images of a different style.
+- **High-Resolution Support**: Capable of generating high-quality, high-resolution images.
+- **Wide Range of Applications**: Suitable for various fields such as art creation, game development, entertainment industry, etc.
+
+---
+
+## Use Cases
+
+- **Art Creation**: Artists and designers use Stable Diffusion to create new artworks.
+- **Content Generation**: Automatically generate visual content for social media, advertising, and other domains.
+- **Game Development**: Generate game scenes, characters, or textures.
+
+---
+
+## Advantages
+
+- **Fast and Efficient**: Stable Diffusion can generate high-quality images faster compared to traditional image generation techniques.
+- **Flexibility**: Users can control the style and details of the generated images by adjusting parameters.
+
+---
+
+## Limitations
+
+- **Creative Constraints**: Generated images may be limited by the training data and may not always fully meet the user's creative requirements.
+- **Quality Fluctuations**: While it can produce high-quality images most of the time, there may be instances of unstable image quality.
+```
+
+|Usage|Sign|Example|
+|-|-|-|
+|Page break|```---```|```---```|
+|Title|```#```|```# PPT to AI```|
+|Page Title|```##```|```## What is AI```|
+|List Number |```1.```|```1. **The usage of AI**```|
+|List Points |```-```|```- **AI Development**```|
 
 ```markdown
 # Stable Diffusion 簡介
@@ -104,10 +165,10 @@ Stable Diffusion是一種深度學習模型，用於生成高質量的圖像。�
 - **質量波動**：雖然大部分時候能生成高質量圖像，但在某些情況下可能會出現質量不穩定的問題。
 ```
 
-|Usage|Sign|Example|
+|用法|符號|示例|
 |-|-|-|
-|Page break|```---```|```---```|
-|Title|```#```|```# Present to AI```|
-|Page Title|```##```|```## What is AI```|
-|List Number |```1.```|```1. **The usage of AI**```|
-|List Points |```-```|```- **AI Development**```|
+|分頁|```---```|```---```|
+|標題|```#```|```# AI```|
+|頁面標題|```##```|```## 什麼是AI```|
+|列表編號|```1.```|```1. **AI的使用方式**```|
+|列表項目|```-```|```- **AI的發展**```|

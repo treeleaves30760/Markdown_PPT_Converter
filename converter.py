@@ -3,6 +3,9 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.shapes import MSO_SHAPE
 from html.parser import HTMLParser
+import re
+import requests
+import io
 
 
 class MyHTMLParser(HTMLParser):
@@ -12,11 +15,29 @@ class MyHTMLParser(HTMLParser):
 
 class MarkdownToPptConverter:
     def __init__(self, md_content, ppt_file, mode=0):
+        """
+        Initialize the converter with markdown content and PowerPoint file.
+        The mode parameter specifies the type of input for the markdown content:
+        0 - Markdown content is provided as a string
+        1 - Markdown content is provided as a file path
+        """
         self.md_content = md_content
         self.ppt_file = ppt_file
         self.mode = mode
 
+    def download_image(self, url):
+        """
+        Download image from URL and return as BytesIO object.
+        """
+        response = requests.get(url)
+        image = io.BytesIO(response.content)
+        return image
+
     def convert(self):
+        """
+        Convert markdown content to PowerPoint presentation.
+        The markdown content can be provided as a string or a file path.
+        """
         # Initialize presentation
         presentation = Presentation()
         first_slide_created = False
@@ -60,12 +81,28 @@ class MarkdownToPptConverter:
                 tf.text = ""  # Clear default text
 
                 for line in content_lines:
+                    line = line.strip()
+                    # Check Markdown or HTML image syntex
+                    image_urls = re.findall(r"!\[.*?\]\((.*?)\)", line) + re.findall(
+                        r'<img src="(.*?)"', line
+                    )
+                    for url in image_urls:
+                        # Download image and add to slide
+                        image_stream = self.download_image(url)
+                        slide.shapes.add_picture(
+                            image_stream, Inches(1), Inches(1), width=Inches(4)
+                        )
+
                     line = line.replace("**", "")  # Remove '**' from line
-                    if line.startswith("- "):  # Check for bullet points
+                    if (
+                        line.startswith("- ") and not image_urls
+                    ):  # Check for bullet points
                         p = tf.add_paragraph()
                         p.text = line.strip("- ")
                         p.level = 0  # Adjust level as needed for nested bullets
-                    elif line.strip():  # Non-empty line that doesn't start with '-'
+                    elif (
+                        line and not image_urls
+                    ):  # Non-empty line that doesn't start with '-' and not an image
                         p = tf.add_paragraph()
                         p.text = line
                         p.level = 0
@@ -74,7 +111,7 @@ class MarkdownToPptConverter:
         presentation.save(self.ppt_file)
 
 
-# Example usage
+# Example usage of the MarkdownToPptConverter
 if __name__ == "__main__":
     md_content = """ 
 # Stable Diffusion 簡介
@@ -128,3 +165,4 @@ Stable Diffusion是一種深度學習模型，用於生成高質量的圖像。�
 """
     converter = MarkdownToPptConverter(md_content, "example.pptx", mode=0)
     converter.convert()
+    print("PowerPoint presentation created successfully!")
