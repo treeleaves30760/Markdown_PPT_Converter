@@ -8,35 +8,52 @@ import converter
 
 class Application(tk.Tk):
     def __init__(self):
+        """
+        Initialize the application.
+        Set the window size and title, and create the widgets.
+        """
         tk.Tk.__init__(self)
         self.geometry("640x640")
         self.title("Markdown to PPT Converter By Hsu Po Hsiang")
         self.create_widgets()
 
     def create_widgets(self):
+        """
+        Create the widgets for the application.
+        """
+        # Create a frame to contain the widgets
         frame = tk.Frame(self, bd=10, relief=tk.GROOVE)
         frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
+        # Create a label for the textarea
         self.textarea = tk.Text(frame, height=10)
         self.textarea.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
+        # Create a button to import a markdown file
         import_button = tk.Button(
             frame, text="Import Markdown File", command=self.import_file
         )
         import_button.pack(fill=tk.BOTH, padx=5, pady=5)
 
+        # Create a button to convert the markdown content to a PowerPoint presentation
         self.button = tk.Button(frame, text="Convert", command=self.convert)
         self.button.pack(fill=tk.BOTH, padx=5, pady=5)
 
+        # Create a progress bar to show the progress of the conversion
         self.progress = Progressbar(frame, length=200, mode="determinate")
         self.progress.pack(fill=tk.BOTH, padx=5, pady=5)
 
+        # Create a button to open the output folder
         open_folder_button = tk.Button(
             frame, text="Open Output Folder", command=self.open_output_folder
         )
         open_folder_button.pack(fill=tk.BOTH, padx=5, pady=5)
 
     def import_file(self):
+        """
+        Open a file dialog to import a markdown file.
+        """
+
         file_path = filedialog.askopenfilename(
             title="Open file",
             filetypes=[("Markdown files", "*.md"), ("Text files", "*.txt")],
@@ -47,12 +64,19 @@ class Application(tk.Tk):
                 self.textarea.insert(tk.END, file.read())  # Insert file content
 
     def convert(self):
+        """
+        Convert the markdown content to a PowerPoint presentation.
+        """
+
+        # Get the markdown content from the textarea
         md_content = self.textarea.get("1.0", tk.END)
         output_filename = simpledialog.askstring(
             "Output File Name",
             "Enter the name of the output PPTX file:",
             initialvalue="output.pptx",
         )
+
+        # Convert the markdown content to a PowerPoint presentation
         if output_filename:
             Converter = converter.MarkdownToPptConverter(md_content, output_filename)
             self.progress["value"] = 50
@@ -64,6 +88,9 @@ class Application(tk.Tk):
             )
 
     def open_output_folder(self):
+        """
+        Open the output folder in the file manager.
+        """
         output_folder_path = os.path.abspath(os.path.dirname(__file__))
         # For macOS, we use "open", and for Linux, we use "xdg-open".
         try:
