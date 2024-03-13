@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Check Python version
-version=$(python -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))")
+version=$(python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))")
 if [ "$(printf '3.6\n%s' "$version" | sort -V | head -n1)" != "3.6" ]; then
     echo "Python version 3.6 or later is required"
     exit 1
@@ -15,4 +15,4 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the script
-python GUI.py
+python3 GUI.py
