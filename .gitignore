@@ -1,7 +1,7 @@
 venv
 *.ppt
 *.pptx
-*.md
+/.conda/
 __pycache__
 
 .DS_Store

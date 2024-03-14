@@ -1,51 +1,59 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, simpledialog, messagebox
-from tkinter.ttk import Progressbar
+from tkinter import filedialog, simpledialog, messagebox
+import ttkbootstrap as ttkb  # Import ttkbootstrap
+from ttkbootstrap.constants import *  # Import constants for easy access to styles
 import webbrowser
 import os
 import converter
 
 
-class Application(tk.Tk):
-    def __init__(self):
+class Application(ttkb.Window):
+    def __init__(self, *args, **kwargs):
         """
-        Initialize the application.
-        Set the window size and title, and create the widgets.
+        Initialize the application with ttkbootstrap.
+        Set the window size and title, and create the widgets using ttkbootstrap styles.
         """
-        tk.Tk.__init__(self)
+        super().__init__(*args, **kwargs)
         self.geometry("640x640")
         self.title("Markdown to PPT Converter By Hsu Po Hsiang")
         self.create_widgets()
 
     def create_widgets(self):
         """
-        Create the widgets for the application.
+        Create the widgets for the application using ttkbootstrap.
         """
         # Create a frame to contain the widgets
-        frame = tk.Frame(self, bd=10, relief=tk.GROOVE)
+        frame = ttkb.Frame(self, bootstyle=SECONDARY)
         frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        # Create a label for the textarea
+        # Create a label for the textarea with ttkbootstrap styling
         self.textarea = tk.Text(frame, height=10)
         self.textarea.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-        # Create a button to import a markdown file
-        import_button = tk.Button(
-            frame, text="Import Markdown File", command=self.import_file
+        # Create buttons with ttkbootstrap styles
+        import_button = ttkb.Button(
+            frame,
+            text="Import Markdown File",
+            command=self.import_file,
+            bootstyle=(PRIMARY, OUTLINE),
         )
         import_button.pack(fill=tk.BOTH, padx=5, pady=5)
 
-        # Create a button to convert the markdown content to a PowerPoint presentation
-        self.button = tk.Button(frame, text="Convert", command=self.convert)
+        self.button = ttkb.Button(
+            frame, text="Convert", command=self.convert, bootstyle=SUCCESS
+        )
         self.button.pack(fill=tk.BOTH, padx=5, pady=5)
 
-        # Create a progress bar to show the progress of the conversion
-        self.progress = Progressbar(frame, length=200, mode="determinate")
+        # Create a progress bar with ttkbootstrap style
+        self.progress = ttkb.Progressbar(frame, length=200, bootstyle=(INFO, STRIPED))
         self.progress.pack(fill=tk.BOTH, padx=5, pady=5)
 
-        # Create a button to open the output folder
-        open_folder_button = tk.Button(
-            frame, text="Open Output Folder", command=self.open_output_folder
+        # Create an open folder button with ttkbootstrap style
+        open_folder_button = ttkb.Button(
+            frame,
+            text="Open Output Folder",
+            command=self.open_output_folder,
+            bootstyle=(DANGER, OUTLINE),
         )
         open_folder_button.pack(fill=tk.BOTH, padx=5, pady=5)
 
@@ -53,11 +61,10 @@ class Application(tk.Tk):
         """
         Open a file dialog to import a markdown file.
         """
-
         file_path = filedialog.askopenfilename(
             title="Open file",
             filetypes=[("Markdown files", "*.md"), ("Text files", "*.txt")],
-        )  # Allow .md and .txt files
+        )
         if file_path:
             with open(file_path, "r", encoding="utf-8") as file:
                 self.textarea.delete(1.0, tk.END)  # Clear the textarea
@@ -67,22 +74,18 @@ class Application(tk.Tk):
         """
         Convert the markdown content to a PowerPoint presentation.
         """
-
-        # Get the markdown content from the textarea
         md_content = self.textarea.get("1.0", tk.END)
         output_filename = simpledialog.askstring(
             "Output File Name",
             "Enter the name of the output PPTX file:",
             initialvalue="output.pptx",
         )
-
-        # Convert the markdown content to a PowerPoint presentation
         if output_filename:
             Converter = converter.MarkdownToPptConverter(md_content, output_filename)
             self.progress["value"] = 50
             Converter.convert()
             self.progress["value"] = 100
-            tk.messagebox.showinfo(
+            messagebox.showinfo(
                 "Conversion Completed",
                 f"File has been converted and saved as {output_filename}",
             )
@@ -92,9 +95,9 @@ class Application(tk.Tk):
         Open the output folder in the file manager.
         """
         output_folder_path = os.path.abspath(os.path.dirname(__file__))
+
         # For macOS, we use "open", and for Linux, we use "xdg-open".
         try:
-            # Attempt to open the folder in the OS's file manager
             webbrowser.open("file://" + output_folder_path)
         except Exception as e:
             messagebox.showerror("Error", f"Could not open the output folder: {e}")
