@@ -80,6 +80,8 @@ class Application(ttkb.Window):
             "Enter the name of the output PPTX file:",
             initialvalue="output.pptx",
         )
+        if "pptx" not in output_filename:
+            output_filename += ".pptx"
         if output_filename:
             Converter = converter.MarkdownToPptConverter(md_content, output_filename)
             self.progress["value"] = 50
