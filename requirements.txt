@@ -2,3 +2,5 @@ markdown==3.3.4
 python-pptx==0.6.19
 requests
 ttkbootstrap
+PyQt6
+Pyqt6-tools
