@@ -63,7 +63,7 @@ class MarkdownToPptConverter:
             # Check if it's the first slide (cover page)
             if title_line.startswith("# ") and not first_slide_created:
                 # Create cover slide
-                slide_layout = presentation.slide_layouts[5]  # Title Slide
+                slide_layout = presentation.slide_layouts[0]  # Title Slide
                 slide = presentation.slides.add_slide(slide_layout)
                 title = title_line.strip("# ").strip().replace("**", "")
                 slide.shapes.title.text = title

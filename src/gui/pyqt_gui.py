@@ -2,11 +2,11 @@ import os
 import sys
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QTextEdit, QPushButton, QVBoxLayout, QWidget, 
+    QApplication, QMainWindow, QTextEdit, QPushButton, QVBoxLayout, QWidget,
     QFileDialog, QProgressBar, QMessageBox
 )
 
-import converter
+import src.converter.converter as converter
 
 
 class Application(QMainWindow):
@@ -63,7 +63,8 @@ class Application(QMainWindow):
             self, "Save file", "", "PowerPoint files (*.pptx)"
         )
         if ok:
-            Converter = converter.MarkdownToPptConverter(md_content, output_filename)
+            Converter = converter.MarkdownToPptConverter(
+                md_content, output_filename)
             self.progress.setValue(50)  # Simulating a step in the conversion
             Converter.convert()
             self.progress.setValue(100)

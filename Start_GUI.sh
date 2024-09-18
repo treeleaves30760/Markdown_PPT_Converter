@@ -15,4 +15,4 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the script
-python3 pyqt_GUI.py
+python3 main.py

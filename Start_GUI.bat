@@ -15,4 +15,4 @@ IF ERRORLEVEL 1 (
 )
 
 REM Run the script
-python pyqt_GUI.py
+python main.py

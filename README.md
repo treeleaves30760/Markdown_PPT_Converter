@@ -17,6 +17,8 @@ Follow these steps to set up a Python virtual environment and install the requir
 2. Install the required packages:
 
     ```bash
+    conda create -n hackmd_ppt python==3.11.8 -y
+    conda activate hackmd_ppt
     pip install -r requirements.txt
     ```
 

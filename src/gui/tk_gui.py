@@ -1,10 +1,11 @@
 import tkinter as tk
 from tkinter import filedialog, simpledialog, messagebox
 import ttkbootstrap as ttkb  # Import ttkbootstrap
-from ttkbootstrap.constants import *  # Import constants for easy access to styles
+# Import constants for easy access to styles
+from ttkbootstrap.constants import *
 import webbrowser
 import os
-import converter
+import src.converter.converter as converter
 
 
 class Application(ttkb.Window):
@@ -45,7 +46,8 @@ class Application(ttkb.Window):
         self.button.pack(fill=tk.BOTH, padx=5, pady=5)
 
         # Create a progress bar with ttkbootstrap style
-        self.progress = ttkb.Progressbar(frame, length=200, bootstyle=(INFO, STRIPED))
+        self.progress = ttkb.Progressbar(
+            frame, length=200, bootstyle=(INFO, STRIPED))
         self.progress.pack(fill=tk.BOTH, padx=5, pady=5)
 
         # Create an open folder button with ttkbootstrap style
@@ -68,7 +70,8 @@ class Application(ttkb.Window):
         if file_path:
             with open(file_path, "r", encoding="utf-8") as file:
                 self.textarea.delete(1.0, tk.END)  # Clear the textarea
-                self.textarea.insert(tk.END, file.read())  # Insert file content
+                # Insert file content
+                self.textarea.insert(tk.END, file.read())
 
     def convert(self):
         """
@@ -83,7 +86,8 @@ class Application(ttkb.Window):
         if "pptx" not in output_filename:
             output_filename += ".pptx"
         if output_filename:
-            Converter = converter.MarkdownToPptConverter(md_content, output_filename)
+            Converter = converter.MarkdownToPptConverter(
+                md_content, output_filename)
             self.progress["value"] = 50
             Converter.convert()
             self.progress["value"] = 100
@@ -102,7 +106,8 @@ class Application(ttkb.Window):
         try:
             webbrowser.open("file://" + output_folder_path)
         except Exception as e:
-            messagebox.showerror("Error", f"Could not open the output folder: {e}")
+            messagebox.showerror(
+                "Error", f"Could not open the output folder: {e}")
 
 
 if __name__ == "__main__":
