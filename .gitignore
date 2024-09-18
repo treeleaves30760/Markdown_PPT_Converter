@@ -6,3 +6,5 @@ __pycache__
 
 /.vscode/
 .DS_Store
+Markdown_to_PPT_Converter.spec
+dist/
