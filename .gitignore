@@ -3,7 +3,6 @@ venv
 *.pptx
 /.conda/
 __pycache__
-test_file.py
 
 /.vscode/
 .DS_Store
