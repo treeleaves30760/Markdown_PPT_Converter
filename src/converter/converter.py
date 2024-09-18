@@ -4,8 +4,8 @@ from pptx.util import Inches, Pt
 from pptx.enum.shapes import MSO_SHAPE
 from html.parser import HTMLParser
 import re
-import requests
-import io
+from src.utils.file_operations import open_file, download_image, ensure_directory_exists
+import os
 
 
 class MyHTMLParser(HTMLParser):
@@ -25,14 +25,6 @@ class MarkdownToPptConverter:
         self.ppt_file = ppt_file
         self.mode = mode
 
-    def download_image(self, url):
-        """
-        Download image from URL and return as BytesIO object.
-        """
-        response = requests.get(url)
-        image = io.BytesIO(response.content)
-        return image
-
     def convert(self):
         """
         Convert markdown content to PowerPoint presentation.
@@ -42,10 +34,7 @@ class MarkdownToPptConverter:
         presentation = Presentation()
         first_slide_created = False
         if self.mode == 1:
-            with open(self.md_content_file, "r") as f:
-                self.md_content = f.read()
-
-            self.md_content = markdown.markdown(self.md_content)
+            self.md_content = open_file(self.md_content) or ""
 
         # Split markdown content by '---'
         slides_md = self.md_content.split("---")
@@ -70,7 +59,8 @@ class MarkdownToPptConverter:
                 first_slide_created = True
             else:
                 # Create a new slide for content
-                slide_layout = presentation.slide_layouts[1]  # Title and Content
+                # Title and Content
+                slide_layout = presentation.slide_layouts[1]
                 slide = presentation.slides.add_slide(slide_layout)
 
                 title = title_line.strip("# ").strip().replace("**", "")
@@ -88,7 +78,7 @@ class MarkdownToPptConverter:
                     )
                     for url in image_urls:
                         # Download image and add to slide
-                        image_stream = self.download_image(url)
+                        image_stream = download_image(url)
                         slide.shapes.add_picture(
                             image_stream, Inches(1), Inches(1), width=Inches(4)
                         )
@@ -108,7 +98,14 @@ class MarkdownToPptConverter:
                         p.level = 0
 
         # Save presentation
-        presentation.save(self.ppt_file)
+        output_dir = os.path.dirname(self.ppt_file)
+        if ensure_directory_exists(output_dir):
+            # Save presentation
+            presentation.save(self.ppt_file)
+            print(
+                f"PowerPoint presentation created successfully at {self.ppt_file}")
+        else:
+            print("Failed to create output directory. Presentation not saved.")
 
 
 # Example usage of the MarkdownToPptConverter
