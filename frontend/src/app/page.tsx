@@ -29,20 +29,21 @@ export default function HomePage() {
         body: JSON.stringify({ markdown }),
       })
 
-      if (response.ok) {
-        const blob = await response.blob()
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'presentation.pptx'
-        document.body.appendChild(a)
-        a.click()
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-        setStatus('Conversion successful!')
-      } else {
-        throw new Error('Conversion failed')
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Conversion failed')
       }
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'presentation.pptx'
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      setStatus('Conversion successful!')
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)

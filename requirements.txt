@@ -3,3 +3,6 @@ python-pptx==0.6.19
 PyInstaller==4.5.1
 flask
 requests
+ttkbootstrap
+PyQt6
+Pyqt6-tools
