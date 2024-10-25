@@ -1,29 +1,18 @@
 {
   "version": 2,
+  "framework": "nextjs",
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/.next",
   "builds": [
     {
-      "src": "server.py",
-      "use": "@vercel/python"
-    },
-    {
       "src": "frontend/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "buildCommand": "npm run build",
-        "outputDirectory": ".next"
-      }
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/convert",
-      "dest": "server.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "server.py"
+      "dest": "/api/convert"
     },
     {
       "src": "/(.*)",

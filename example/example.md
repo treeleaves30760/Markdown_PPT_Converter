@@ -64,6 +64,3 @@
 - **Advancements in AI Technology**: Ongoing research to enhance AI's capabilities and reduce limitations.
 
 ---
-
-For more information on how to convert this presentation into different formats, visit the [Markdown_PPT_Converter GitHub repository](https://github.com/treeleaves30760/Markdown_PPT_Converter).
-
