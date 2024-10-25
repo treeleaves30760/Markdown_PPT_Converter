@@ -184,7 +184,7 @@ export default function HomePage() {
             <li>Use --- to separate slides</li>
             <li>Use # for title and ## for slide headers</li>
             <li>Use - for bullet points and 1. for numbered lists</li>
-            <li>Click "Convert to PowerPoint" to generate your presentation</li>
+            <li>Click &quot;Convert to PowerPoint&quot; to generate your presentation</li>
           </ol>
         </div>
       </main>
