@@ -5,6 +5,33 @@ interface ImageMatch {
   url: string;
 }
 
+interface TextOptions {
+  bullet?: {
+    indent?: number;
+  } | false;
+  breakLine?: boolean;
+}
+
+interface SlideTextOptions {
+  x: number;
+  y: number;
+  w: PptxGenJS.Coord;
+  h?: number;
+  fontSize?: number;
+  align?: 'left' | 'center' | 'right';
+  valign?: 'top' | 'middle' | 'bottom';
+  bold?: boolean;
+  color?: string;
+  breakLine?: boolean;
+  bullet?: { indent: number } | false;
+  spacing?: { line: number };
+}
+
+interface FormattedContent {
+  text: string;
+  options: TextOptions;
+}
+
 class MarkdownToPptConverter {
   private mdContent: string;
   private presentation: PptxGenJS;
@@ -37,8 +64,8 @@ class MarkdownToPptConverter {
     return matches;
   }
 
-  private formatContent(contentLines: string[]): { text: string, options: any }[] {
-    const formattedLines: { text: string, options: any }[] = [];
+  private formatContent(contentLines: string[]): FormattedContent[] {
+    const formattedLines: FormattedContent[] = [];
     
     contentLines.forEach(line => {
       const trimmedLine = line.trim();
@@ -52,7 +79,8 @@ class MarkdownToPptConverter {
         formattedLines.push({
           text: textWithoutBold.substring(2),
           options: {
-            bullet: { indent: 20 }
+            bullet: { indent: 20 },
+            breakLine: true
           }
         });
       }
@@ -83,7 +111,7 @@ class MarkdownToPptConverter {
 
   private async processSlideContent(slide: PptxGenJS.Slide, contentLines: string[]): Promise<void> {
     const leftMargin = 0.5;
-    const titleHeight = 1.5; // Height reserved for title
+    const titleHeight = 1.5;
     
     // Filter out empty lines
     const nonEmptyLines = contentLines.filter(line => line.trim());
@@ -96,18 +124,19 @@ class MarkdownToPptConverter {
         text: item.text,
         options: {
           ...item.options,
-          breakLine: true // Force line break after each item
+          breakLine: true
         }
       })), {
         x: leftMargin,
         y: titleHeight,
-        w: '90%',
+        w: 9,
         h: 4.5,
         fontSize: 18,
         align: 'left',
         valign: 'top',
+        spacing: { line: 1.5 },
         breakLine: true
-      });
+      } as SlideTextOptions);
     }
   }
 
@@ -137,7 +166,7 @@ class MarkdownToPptConverter {
           bold: true,
           align: 'center',
           valign: 'middle'
-        });
+        } as SlideTextOptions);
         
         firstSlideCreated = true;
       } else {
@@ -156,7 +185,7 @@ class MarkdownToPptConverter {
           align: 'left',
           valign: 'middle',
           color: '363636'
-        });
+        } as SlideTextOptions);
 
         // Process slide content
         await this.processSlideContent(slide, contentLines);
