@@ -1,0 +1,10 @@
+.git
+.env
+__pycache__
+*.pyc
+.pytest_cache
+.coverage
+.venv
+venv
+.idea
+.vscode
