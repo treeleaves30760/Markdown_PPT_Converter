@@ -1,29 +1,26 @@
 {
   "version": 2,
   "framework": "nextjs",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/.next",
   "builds": [
+    {
+      "src": "api/*.py",
+      "use": "@vercel/python"
+    },
     {
       "src": "frontend/package.json",
       "use": "@vercel/next"
-    },
-    {
-      "src": "server.py",
-      "use": "@vercel/python@3.1.0",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
-      }
     }
   ],
   "routes": [
     {
-      "src": "/convert",
-      "methods": ["POST", "OPTIONS"],
-      "dest": "server.py"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "server.py"
+      "src": "/convert",
+      "dest": "/api/convert"
     },
     {
       "src": "/(.*)",

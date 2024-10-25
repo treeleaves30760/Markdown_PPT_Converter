@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/*.py": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "cleanUrls": true,
+  "trailingSlash": false
+}
